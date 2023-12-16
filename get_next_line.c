@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-#define  BUFFER_SIZE 20 
+#define  BUFFER_SIZE 25 
 
 size_t	ft_strlen(char *str)
 {
@@ -86,7 +86,15 @@ char	*get_next_line(int fd)
 	char		buff[BUFFER_SIZE + 1];
 	char		*nl;
 
-	next_line = ft_strdup(prev_line);
+	if ((nl = ft_strchrnl(prev_line)))
+	{
+		next_line = ft_substr(prev_line, nl - prev_line);
+		ft_strcpy(prev_line, nl + 1); 
+		return 	next_line;
+	}
+	else
+		next_line = ft_strdup(prev_line);
+	
 	while((br = read(fd, buff, BUFFER_SIZE)))	
 	{
 		
